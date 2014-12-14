@@ -1,9 +1,23 @@
 --main.lua
 local ffi = require 'ffi'
+print("operating system:",ffi.os)
 local sdl = require 'SDL2'
-local ogl = require 'OpenGLES2'
-local esu = require 'esUtil'
-local Quaternion = require 'quaternion'
+
+local ogl = nil
+local esu = nil
+
+local os = ffi.os
+if os == "POSIX" then
+	--local ogl = require 'OpenGL4_3'
+	ogl = require 'OglMan'
+	esu = require 'glext'
+else
+	ogl = require 'OpenGLES2'
+	esu = require 'esUtil'
+end
+
+
+--local Quaternion = require 'quaternion'
 
 function loadShader(type, shaderSrc )
 
@@ -194,10 +208,10 @@ function Main()
 	local e = ffi.new("SDL_Event")
 
 	print("Entering main game loop")
-	local p = Quaternion.unit()
-	local q = Quaternion:Create({1,0,1,0})
-	q:is_zero()
-	print("quaternion: ", tostring(q))
+	--local p = Quaternion.unit()
+	--local q = Quaternion:Create({1,0,1,0})
+	--q:is_zero()
+	--print("quaternion: ", tostring(q))
 	-- main loop
 	while 1 do
 		
