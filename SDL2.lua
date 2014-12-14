@@ -2,14 +2,25 @@
 -- Source: https://raw.githubusercontent.com/torch/sdl2-ffi/master/init.lua
 local ffi = require 'ffi'
 
-local C = ffi.load('SDL2')
+local os = ffi.os
+
+local C = nil
+if os == "POSIX" then --mingw windows 32
+  C = ffi.load('./SDL2')
+else --android
+  C = ffi.load('SDL2')
+end
+
+print("before ffi load")
+
+print("after ffi load")
 local sdl = {C=C}
 local registerdefines = require 'SDL2defines'
 
 require 'SDL2cdefs'
 
 local function register(luafuncname, funcname)
-  print("registering "..luafuncname)
+ -- print("registering "..luafuncname)
    local symexists, msg = pcall(function()
                               local sym = C[funcname]
                            end)
